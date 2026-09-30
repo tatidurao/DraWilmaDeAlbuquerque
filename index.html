@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dra. Wilma de Albuquerque | Geriatria e Gerontologia</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* Variáveis Globais */
+        :root {
+            --bg-dark: #020710;
+            --bg-surface: #06101E;
+            --bg-glass: rgba(8, 20, 38, 0.65);
+            --gold: #D4AF37;
+            --gold-light: #F3E5AB;
+            --gold-glow: rgba(212, 175, 55, 0.45);
+            --neon-blue: #00E5FF;
+            --neon-blue-glow: rgba(0, 229, 255, 0.45);
+            --text-light: #E2E8F0;
+            --text-muted: #94A3B8;
+            --white: #FFFFFF;
+            --font-title: 'Playfair Display', serif;
+            --font-text: 'Montserrat', sans-serif;
+            --transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        body.light-theme {
+            --bg-dark: #F3F8FD; --bg-surface: #E7F1FB; --bg-glass: rgba(255, 255, 255, 0.9);
+            --text-light: #17324D; --text-muted: #405A73; --white: #17324D; --gold-light: #805500;
+            background-color: var(--bg-dark);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-text); background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 24px; }
+
+        /* Painel Vidro / Glow */
+        .glass-panel {
+            background: var(--bg-glass);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Botões */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 16px 32px; border-radius: 8px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 1.5px; font-size: 0.85rem; cursor: pointer; transition: var(--transition);
+            border: none; position: relative; overflow: hidden;
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, #D4AF37, #B89222);
+            color: #020710;
+            box-shadow: 0 0 25px var(--gold-glow);
+        }
+        .btn-gold:hover { transform: translateY(-4px); box-shadow: 0 0 35px var(--gold-glow); }
+        .btn-outline {
+            background: transparent; color: var(--gold); border: 1.5px solid var(--gold);
+        }
+        .btn-outline:hover { background: var(--gold); color: #020710; box-shadow: 0 0 25px var(--gold-glow); }
+
+        .theme-toggle {
+            position: fixed; top: 92px; right: 28px; z-index: 1001; width: 44px; height: 44px;
+            display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold);
+            border-radius: 50%; background: rgba(6, 16, 30, 0.9); color: var(--gold);
+            font-size: 1rem; cursor: pointer; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            transition: var(--transition);
+        }
+        .theme-toggle:hover { transform: translateY(-2px); box-shadow: 0 0 18px var(--gold-glow); }
+        .light-theme .theme-toggle { background: var(--white); color: #805500; }
+
+        /* WhatsApp Pulsante */
+        .btn-whatsapp-float {
+            position: fixed; bottom: 35px; right: 35px; width: 65px; height: 65px;
+            background: #25D366; color: white; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-size: 34px; z-index: 1000;
+            box-shadow: 0 0 25px rgba(37, 211, 102, 0.6); animation: pulse-wa 2.2s infinite;
+        }
+        .appointment-dialog {
+            position: fixed; width: min(560px, calc(100% - 32px)); max-height: min(90vh, 760px); margin: auto;
+            padding: 32px; border: 1px solid rgba(212, 175, 55, 0.45); border-radius: 18px;
+            background: var(--bg-surface); color: var(--text-light); box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65);
+        }
+        .appointment-dialog::backdrop { background: rgba(1, 4, 10, 0.78); backdrop-filter: blur(5px); }
+        .appointment-dialog h2 { padding-right: 35px; margin-bottom: 8px; color: var(--gold); font: 700 1.65rem/1.2 var(--font-title); }
+        .appointment-dialog > p { margin-bottom: 22px; color: var(--text-muted); font-size: 0.92rem; }
+        .appointment-dialog-close {
+            position: absolute; top: 18px; right: 18px; width: 36px; height: 36px; display: grid;
+            place-items: center; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 50%;
+            background: transparent; color: var(--text-light); font-size: 1rem; cursor: pointer;
+        }
+        .appointment-choices { display: grid; gap: 12px; }
+        .appointment-choice {
+            display: block; padding: 16px 18px; border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px; background: rgba(255, 255, 255, 0.035); transition: var(--transition);
+        }
+        .appointment-choice:hover, .appointment-choice:focus-visible {
+            border-color: var(--gold); background: rgba(212, 175, 55, 0.1); transform: translateY(-2px); outline: none;
+        }
+        .appointment-choice strong { display: block; margin-bottom: 3px; color: var(--gold-light); font-size: 0.98rem; }
+        .appointment-choice span { display: block; color: var(--text-light); font-size: 0.87rem; }
+        .appointment-choice small { display: block; margin-top: 5px; color: var(--text-muted); font-size: 0.76rem; line-height: 1.45; }
+        .light-theme .appointment-dialog { border-color: rgba(128, 85, 0, 0.35); }
+        .light-theme .appointment-choice { background: rgba(255, 255, 255, 0.65); }
+        .light-theme .appointment-choice strong { color: #805500; }
+        .light-theme .appointment-dialog-close { border-color: rgba(23, 50, 77, 0.2); }
+        @keyframes pulse-wa {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 22px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        /* Header */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 999;
+            background: rgba(2, 7, 16, 0.85); backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 16px 0;
+            transition: var(--transition);
+        }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo-box { display: flex; align-items: center; gap: 12px; }
+        .logo-mark { width: 54px; height: 54px; object-fit: cover; border-radius: 8px; flex: 0 0 auto; }
+        .logo-mark-light { display: none; }
+        .logo-copy { display: flex; flex-direction: column; }
+        .logo-name { font-family: var(--font-title); font-size: 1.35rem; color: var(--gold); font-weight: 700; line-height: 1.1; }
+        .logo-sub { font-size: 0.68rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); }
+        .nav-links { display: flex; gap: 30px; align-items: center; }
+        .nav-links a { font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); transition: 0.3s; }
+        .nav-links a:hover { color: var(--gold); text-shadow: 0 0 10px var(--gold-glow); }
+        .menu-toggle { display: none; background: transparent; border: 0; color: var(--gold); font-size: 1.5rem; cursor: pointer; }
+
+        /* ================= HERO SECTION COM CÉREBRO ================= */
+        .hero {
+            position: relative; min-height: 100vh; display: flex; align-items: center;
+            padding-top: 100px; padding-bottom: 60px; overflow: hidden;
+            background: radial-gradient(circle at 75% 50%, #0c1c38 0%, #020710 65%);
+        }
+        .light-theme header { background: rgba(243, 248, 253, 0.97); border-bottom-color: rgba(23, 50, 77, 0.16); }
+        .light-theme .logo-name, .light-theme .menu-toggle { color: #805500; }
+        .light-theme .logo-mark-dark { display: none; }
+        .light-theme .logo-mark-light { display: block; }
+        .light-theme .hero { background: radial-gradient(circle at 75% 50%, #D9EAF8 0%, #F3F8FD 68%); }
+        .light-theme .hero .neural-stage { background: rgba(231, 242, 252, 0.96); border-color: rgba(23, 105, 170, 0.32); box-shadow: 0 12px 30px rgba(23, 50, 77, 0.14); }
+        .light-theme .hero .brain-svg { filter: drop-shadow(0 0 18px rgba(23, 105, 170, 0.28)); }
+        .light-theme .hero .brain-svg path:first-of-type { stroke: #145B91; opacity: 1; }
+        .light-theme .hero .brain-svg path:nth-of-type(2) { stroke: #805500; opacity: 1; }
+        .light-theme .hero .brain-svg circle { filter: drop-shadow(0 0 4px currentColor); }
+        .light-theme .hero .brain-svg circle:nth-of-type(odd) { fill: #1769AA; }
+        .light-theme .hero .brain-svg circle:nth-of-type(even) { fill: #805500; }
+        .light-theme .brain-rings { border-color: rgba(23, 105, 170, 0.42); }
+        .light-theme .brain-rings-2 { border-color: rgba(128, 85, 0, 0.38); }
+        .light-theme .nav-links a:not(.btn), .light-theme .logo-sub { color: #17324D; }
+        .light-theme .section-header p, .light-theme .about-text p, .light-theme .service-card p,
+        .light-theme .footer-col li, .light-theme .footer-brand p, .light-theme .copyright,
+        .light-theme .hero-crm { color: #405A73; }
+        .light-theme .hero-motto-box ul, .light-theme .tech-list { color: #17324D; }
+        .light-theme .about-section { background: #E7F1FB; }
+        .light-theme .attendance { background: #EAF4FC; }
+        .light-theme .services { background: #F3F8FD; }
+        .light-theme footer { background: #DCEAF7; border-top-color: rgba(128, 85, 0, 0.35); }
+        .light-theme .footer-bottom { border-top-color: rgba(23, 50, 77, 0.24); }
+        .light-theme .glass-panel { border-color: rgba(23, 50, 77, 0.14); box-shadow: 0 10px 30px rgba(23, 50, 77, 0.1); }
+        .light-theme .service-card:hover { background: rgba(255, 255, 255, 0.9); }
+        .light-theme .hud-tag { background: rgba(255, 255, 255, 0.94); color: #17324D; border-color: rgba(23, 105, 170, 0.35); box-shadow: 0 4px 14px rgba(23, 50, 77, 0.14); }
+        .light-theme .hud-tag i { color: #1769AA; }
+        .light-theme .hud-tag.tag-1 { border-color: rgba(128, 85, 0, 0.4); }
+        .light-theme .hud-tag.tag-1 i { color: #805500; }
+        .light-theme .btn-gold { color: #182a30; }
+        .light-theme .video-wrapper { background: rgba(255, 255, 255, 0.7); border-color: rgba(23, 50, 77, 0.14); }
+        .light-theme .map-wrapper { border-color: rgba(23, 50, 77, 0.16); box-shadow: 0 15px 35px rgba(23, 50, 77, 0.14); }
+        .light-theme .insta-item { box-shadow: 0 8px 22px rgba(23, 50, 77, 0.14); }
+        .hero-grid {
+            display: grid; grid-template-columns: minmax(480px, 0.95fr) minmax(0, 1.05fr); gap: 44px; align-items: end;
+            position: relative; z-index: 2;
+        }
+        
+        /* Estilos do Novo Layout Hero */
+        .hero-profile-container {
+            position: relative; width: min(100%, 460px); height: 560px; margin: 0 auto; border-radius: 16px; overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        .hero-profile-img {
+            width: 100%; height: 100%; display: block; border-radius: 16px;
+            object-fit: cover; object-position: center 24%; filter: contrast(1.03) brightness(0.98);
+        }
+        .hero-profile-img-light { display: none; }
+        .light-theme .hero-profile-img-dark { display: none; }
+        .light-theme .hero-profile-img-light { display: block; }
+        .hero-actions { display: flex; gap: 16px; flex-wrap: nowrap; margin-bottom: 40px; }
+        .hero-actions .btn { flex: 1 1 0; min-width: 0; padding-left: 18px; padding-right: 18px; white-space: nowrap; }
+        
+        .hero-hologram-column { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
+        
+        .hero-motto-box { text-align: left; margin-bottom: 20px; width: 100%; max-width: 560px; z-index: 10; }
+        .hero-motto-box h1 { font-family: var(--font-title); font-size: clamp(2.2rem, 4vw, 3.4rem); line-height: 1.05; color: var(--gold); margin-bottom: 8px; }
+        .hero-motto-box .hero-crm { display: block; color: var(--text-muted); font-size: 0.9rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 22px; }
+        .hero-motto-box h2 { font-family: var(--font-title); font-size: 1.8rem; line-height: 1.15; color: var(--white); margin-bottom: 15px; }
+        .hero-motto-box ul { display: grid; gap: 8px; font-size: 0.95rem; color: var(--text-light); line-height: 1.5; }
+        .hero-motto-box ul li { display: flex; align-items: flex-start; gap: 9px; }
+        .hero-motto-box ul i { width: 1.1rem; margin-top: 4px; text-align: center; }
+        .hero-motto-box p { font-size: 0.85rem; color: var(--text-muted); margin-top: 20px; line-height: 1.5; }
+
+        /* Stage Tecnológico do Cérebro Neural */
+        .neural-stage {
+            position: relative; width: 100%; height: 560px; display: flex;
+            align-items: center; justify-content: center;
+        }
+        .hero .neural-stage {
+            height: 330px; border-radius: 12px; background: rgba(8, 20, 38, 0.4);
+            border: 1px solid rgba(0, 229, 255, 0.15); overflow: hidden;
+        }
+        
+        #neural-canvas {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: auto;
+        }
+        .brain-hologram-wrapper {
+            position: relative; width: 340px; height: 340px; z-index: 2;
+            display: flex; align-items: center; justify-content: center;
+            pointer-events: none;
+        }
+        .hero .brain-hologram-wrapper { width: 280px; height: 280px; }
+        
+        .brain-rings {
+            position: absolute; width: 100%; height: 100%; border-radius: 50%;
+            border: 1px dashed rgba(0, 229, 255, 0.3);
+            animation: rotate-ring 30s linear infinite;
+        }
+        .brain-rings-2 {
+            position: absolute; width: 115%; height: 115%; border-radius: 50%;
+            border: 1px dotted rgba(212, 175, 55, 0.35);
+            animation: rotate-ring-reverse 40s linear infinite;
+        }
+        @keyframes rotate-ring { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes rotate-ring-reverse { 0% { transform: rotate(360deg); } 100% { transform: rotate(0deg); } }
+        
+        .brain-svg {
+            width: 250px; height: auto; filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.8)) drop-shadow(0 0 10px rgba(212, 175, 55, 0.6));
+            animation: float-brain 4s ease-in-out infinite alternate;
+        }
+        .hero .brain-svg { width: 200px; }
+        
+        @keyframes float-brain {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-12px) scale(1.03); }
+        }
+
+        /* Widgets Flutuantes ao redor do cérebro */
+        .hud-tag {
+            position: absolute; z-index: 3; background: rgba(6, 16, 30, 0.85);
+            border: 1px solid rgba(0, 229, 255, 0.3); border-radius: 8px;
+            padding: 8px 14px; font-size: 0.75rem; color: var(--white);
+            display: flex; align-items: center; gap: 8px; backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            animation: float-hud 5s ease-in-out infinite alternate;
+        }
+        .hero .hud-tag { font-size: 0.65rem; padding: 5px 10px; }
+        
+        .hud-tag i { color: var(--neon-blue); font-size: 0.9rem; }
+        .hud-tag.tag-1 { top: 15%; left: 0; animation-delay: 0.5s; border-color: rgba(212, 175, 55, 0.4); }
+        .hero .hud-tag.tag-1 { top: 10%; left: 5%; }
+        .hud-tag.tag-1 i { color: var(--gold); }
+        .hud-tag.tag-2 { bottom: 20%; right: -10px; animation-delay: 1.5s; }
+        .hero .hud-tag.tag-2 { bottom: 15%; right: 5%; }
+        .hud-tag.tag-3 { bottom: 8%; left: 15%; animation-delay: 2.5s; }
+        .hero .hud-tag.tag-3 { bottom: 5%; left: 10%; }
+        
+        @keyframes float-hud {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-8px); }
+        }
+
+        /* Seção Títulos Padronizados */
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-family: var(--font-title); font-size: 2.8rem; margin-bottom: 12px; color: var(--white); }
+        .section-header .line { width: 80px; height: 3px; background: var(--gold); margin: 0 auto 18px auto; box-shadow: 0 0 12px var(--gold); }
+        .section-header p { color: var(--text-muted); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Parallax - Longevidade */
+        .parallax-longevidade {
+            position: relative;
+            min-height: 360px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: url('image4.png') center center / cover no-repeat fixed;
+            border-top: 1px solid rgba(212, 175, 55, 0.25);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+        }
+        .parallax-longevidade::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(2, 7, 16, 0.88), rgba(2, 7, 16, 0.45), rgba(2, 7, 16, 0.8));
+        }
+        .parallax-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 900px;
+            padding: 40px 20px;
+        }
+        .parallax-kicker {
+            display: inline-block;
+            padding: 8px 18px;
+            border: 1px solid rgba(212, 175, 55, 0.65);
+            border-radius: 999px;
+            background: rgba(212, 175, 55, 0.08);
+            color: var(--gold-light);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+        .parallax-content h2 {
+            font-family: var(--font-title);
+            font-size: clamp(2rem, 3vw, 3.2rem);
+            line-height: 1.12;
+            color: var(--white);
+            margin-bottom: 16px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        .parallax-content p {
+            color: rgba(226, 232, 240, 0.88);
+            font-size: 1.05rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .light-theme .parallax-longevidade::before {
+            background: linear-gradient(90deg, rgba(2, 7, 16, 0.9), rgba(2, 7, 16, 0.76), rgba(2, 7, 16, 0.88));
+        }
+        .light-theme .parallax-kicker {
+            color: #FFF4CC;
+            border-color: #D4AF37;
+            background: rgba(2, 7, 16, 0.72);
+        }
+        .light-theme .parallax-content h2 {
+            color: #FFFFFF;
+            text-shadow: 0 3px 12px rgba(0, 0, 0, 0.8);
+        }
+        .light-theme .parallax-content p {
+            color: #F5F8FC;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+        }
+
+        /* Seção Sobre / Mídia */
+        .about-section { padding: 120px 0; background: var(--bg-surface); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .crm-badge {
+            display: inline-block; padding: 8px 16px; border: 1px solid var(--gold);
+            border-radius: 6px; color: var(--gold); font-weight: 600; margin-bottom: 20px;
+            background: rgba(212, 175, 55, 0.08); font-size: 0.9rem;
+        }
+        .about-text h3 { font-family: var(--font-title); font-size: 2.3rem; margin-bottom: 20px; color: var(--white); }
+        .about-text p { color: var(--text-muted); margin-bottom: 18px; font-size: 1.05rem; }
+        
+        .video-wrapper {
+            position: relative; padding: 12px; background: rgba(255,255,255,0.02);
+            border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px);
+        }
+        .video-wrapper::before {
+            content: ''; position: absolute; inset: -2px; border-radius: 22px;
+            background: linear-gradient(45deg, var(--gold), transparent, var(--neon-blue));
+            z-index: -1; opacity: 0.35;
+        }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 14px; }
+        .video-container iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+        .insta-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 30px; }
+        .insta-item { border-radius: 10px; overflow: hidden; aspect-ratio: 1; position: relative; }
+        .insta-item img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); filter: brightness(0.7); }
+        .insta-caption {
+            position: absolute; top: 0; left: 0; right: 0; z-index: 2; padding: 10px 8px;
+            background: linear-gradient(to bottom, rgba(2, 7, 16, 0.9), rgba(2, 7, 16, 0));
+            color: var(--white); font-size: 0.72rem; font-weight: 600; line-height: 1.25;
+            text-align: center; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+        }
+        .insta-overlay { position: absolute; inset: 0; background: rgba(212, 175, 55, 0.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: var(--transition); }
+        .insta-overlay i { font-size: 1.8rem; color: #fff; }
+        .insta-item:hover img { transform: scale(1.08); filter: brightness(1); }
+        .insta-item:hover .insta-overlay { opacity: 1; }
+
+        /* Serviços */
+        .services { padding: 120px 0; background: var(--bg-dark); }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .service-card { padding: 40px 30px; border-radius: 16px; transition: var(--transition); border-top: 3px solid transparent; }
+        .service-card:hover { transform: translateY(-8px); border-top-color: var(--gold); background: rgba(12, 28, 54, 0.85); box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+        .service-icon {
+            width: 65px; height: 65px; border-radius: 50%; background: rgba(212, 175, 55, 0.1);
+            display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+            color: var(--gold); margin-bottom: 25px; border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: var(--transition);
+        }
+        .service-card:hover .service-icon { background: var(--gold); color: #020710; box-shadow: 0 0 20px var(--gold-glow); }
+        .service-card h4 { font-family: var(--font-title); font-size: 1.35rem; margin-bottom: 15px; color: var(--white); }
+        .service-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+        /* Seção Atendimento (Alinhada e Tecnológica) */
+        .attendance { padding: 120px 0; background: var(--bg-surface); }
+        .attendance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: stretch; }
+        .tech-card {
+            display: flex; flex-direction: column; justify-content: center; padding: 45px;
+            height: 100%; min-height: 480px; position: relative; overflow: hidden;
+        }
+        .tech-radar {
+            position: absolute; right: -60px; top: -60px; width: 280px; height: 280px;
+            border-radius: 50%; border: 1px solid rgba(0, 229, 255, 0.15); display: flex;
+            align-items: center; justify-content: center;
+        }
+        .tech-radar::after {
+            content: ''; width: 180px; height: 180px; border-radius: 50%;
+            border: 1px solid rgba(0, 229, 255, 0.3); animation: pulse-radar 3s infinite linear;
+        }
+        @keyframes pulse-radar { 0% { transform: scale(0.6); opacity: 1; } 100% { transform: scale(1.9); opacity: 0; } }
+        .tech-card h3 { font-family: var(--font-title); font-size: 2.1rem; margin-bottom: 25px; color: var(--gold); }
+        .tech-list li { margin-bottom: 18px; display: flex; align-items: flex-start; gap: 15px; font-size: 1.02rem; }
+        .tech-list i { color: var(--neon-blue); font-size: 1.2rem; margin-top: 4px; text-shadow: 0 0 10px var(--neon-blue-glow); }
+        .clinic-list { position: relative; z-index: 1; }
+        .clinic-list li { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 22px; color: var(--text-light); font-size: 0.92rem; line-height: 1.55; }
+        .clinic-list li > i { color: var(--gold); font-size: 1.1rem; margin-top: 3px; }
+        .clinic-list strong { color: var(--gold-light); }
+        .clinic-list a { color: var(--text-light); text-decoration: underline; text-decoration-color: rgba(212, 175, 55, 0.55); text-underline-offset: 3px; }
+        .attendance-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-top: 30px; }
+        .attendance-option { padding: 26px; }
+        .attendance-option h3 { display: flex; align-items: center; gap: 10px; color: var(--gold); font-family: var(--font-title); font-size: 1.35rem; margin-bottom: 12px; }
+        .attendance-option h3 i { color: var(--neon-blue); font-size: 1.1rem; }
+        .attendance-option p { color: var(--text-muted); font-size: 0.93rem; line-height: 1.65; }
+
+        .map-wrapper {
+            border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
+            display: flex; height: 100%; min-height: 480px; box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        .map-wrapper iframe { width: 100%; height: 100%; border: none; flex-grow: 1; }
+
+        /* Rodapé */
+        footer {
+            background: #01040A; border-top: 1px solid rgba(212, 175, 55, 0.25);
+            padding: 80px 0 25px 0; position: relative;
+        }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr 1.5fr; gap: 40px; margin-bottom: 50px; }
+        .footer-brand-heading { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .footer-brand .logo-mark { width: 56px; height: 56px; }
+        .footer-brand .logo-name { font-size: 1.25rem; }
+        .footer-brand .logo-sub { display: block; margin-top: 4px; }
+        .footer-brand p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px; }
+        .social-row { display: flex; gap: 15px; }
+        .social-row a {
+            width: 42px; height: 42px; border-radius: 8px; background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;
+            color: var(--white); font-size: 1.2rem; transition: var(--transition);
+        }
+        .social-row a:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold-glow); transform: translateY(-3px); }
+        .footer-col h4 { font-family: var(--font-title); font-size: 1.15rem; margin-bottom: 20px; color: var(--white); position: relative; }
+        .footer-col h4::after { content: ''; position: absolute; left: 0; bottom: -6px; width: 30px; height: 2px; background: var(--gold); }
+        .footer-col ul li { margin-bottom: 12px; color: var(--text-muted); font-size: 0.9rem; }
+        .footer-col ul li a:hover { color: var(--gold); padding-left: 5px; transition: 0.2s; }
+        .footer-contact li { display: flex; gap: 12px; align-items: flex-start; }
+        .footer-contact i { color: var(--gold); font-size: 1.1rem; margin-top: 3px; }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.06); padding: 25px 90px 85px 0;
+            display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 28px;
+        }
+        .copyright { max-width: 780px; color: var(--text-muted); font-size: 0.85rem; line-height: 1.55; }
+        .dev-signature {
+            font-size: 0.88rem; color: var(--text-muted); display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.03); padding: 8px 18px; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.08); transition: var(--transition); white-space: nowrap;
+        }
+        .dev-signature:hover { border-color: var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
+        .dev-signature a { color: var(--gold); font-weight: 600; }
+
+        /* Responsividade */
+        @media (max-width: 900px) {
+            .hero-grid, .about-grid, .attendance-grid, .footer-grid { grid-template-columns: 1fr; }
+            .attendance-options { grid-template-columns: 1fr; }
+            .hero-grid { align-items: center; }
+            .hero-hologram-column { align-items: center; margin-top: 20px; }
+            .hero-motto-box { text-align: center; }
+            .hero-motto-box ul { display: inline-block; text-align: left; }
+            .hero-actions { justify-content: center !important; }
+            .neural-stage { height: 420px; }
+            .map-wrapper, .tech-card { min-height: 400px; }
+        }
+        @media (max-width: 600px) {
+            .appointment-dialog { padding: 26px 20px; }
+            .appointment-dialog h2 { font-size: 1.4rem; }
+            .theme-toggle { top: 86px; right: 18px; }
+            .menu-toggle { display: block; }
+            .nav-content { position: relative; }
+            .logo-box { gap: 8px; max-width: calc(100% - 45px); }
+            .logo-mark { width: 44px; height: 44px; }
+            .logo-name { font-size: 0.98rem; }
+            .logo-sub { font-size: 0.56rem; letter-spacing: 0.8px; }
+            .nav-links {
+                position: absolute; top: calc(100% + 16px); left: 0; right: 0; display: none;
+                flex-direction: column; align-items: stretch; gap: 0; padding: 10px;
+                background: rgba(2, 7, 16, 0.97); border: 1px solid rgba(212, 175, 55, 0.25);
+                border-radius: 10px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            }
+            .nav-links.is-open { display: flex; }
+            .nav-links a { padding: 13px 12px; }
+            .nav-links .btn { margin-top: 6px; }
+            .light-theme .nav-links a { color: var(--text-light); }
+            .light-theme .nav-links { background: rgba(255, 255, 255, 0.98); border-color: rgba(23, 50, 77, 0.22); }
+            .hero-motto-box h1 { font-size: 2.2rem; }
+            .hero-motto-box h2 { font-size: 1.6rem; }
+            .hero-profile-container { width: min(100%, 360px); height: 440px; }
+            .hero-actions { flex-direction: column; align-items: stretch; }
+            .hero-actions .btn { width: 100%; }
+            .footer-bottom { grid-template-columns: 1fr; padding: 25px 0 90px; text-align: center; justify-items: center; }
+            .copyright { max-width: 100%; }
+            .hud-tag { display: none; } /* Oculta tags em telas muito pequenas para focar no cérebro */
+            .hero .neural-stage { height: 320px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- WhatsApp Flutuante com Glow -->
+    <a href="#agendamento" class="btn-whatsapp-float js-appointment" aria-label="Escolher local ou modalidade de atendimento">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    <dialog class="appointment-dialog" id="appointment-dialog" aria-labelledby="appointment-dialog-title">
+        <button class="appointment-dialog-close" type="button" aria-label="Fechar opções de agendamento">
+            <i class="fas fa-xmark"></i>
+        </button>
+        <h2 id="appointment-dialog-title">Onde deseja agendar sua consulta?</h2>
+        <p>Escolha o local ou a modalidade. Você continuará o agendamento pelo WhatsApp correspondente.</p>
+        <div class="appointment-choices">
+            <a class="appointment-choice" href="https://wa.me/5511975995965?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20na%20Cl%C3%ADnica%20M%C3%A9dica%20Ortop%C3%A9dica%20Chakkour." target="_blank" rel="noopener noreferrer">
+                <strong>Clínica Médica Ortopédica Chakkour</strong>
+                <span><i class="fab fa-whatsapp"></i> WhatsApp: (11) 97599-5965</span>
+                <small><i class="fas fa-location-dot"></i> Praça Oswaldo Cruz, 124, cj. 115 — São Paulo</small>
+            </a>
+            <a class="appointment-choice" href="https://wa.me/551142001635?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20na%20Cl%C3%ADnica%20Visione." target="_blank" rel="noopener noreferrer">
+                <strong>Clínica Visione</strong>
+                <span><i class="fab fa-whatsapp"></i> WhatsApp: (11) 4200-1635</span>
+                <small><i class="fas fa-location-dot"></i> Av. Tenente Marques, 4724, piso 1, loja 2 — Jardim do Luar, Santana de Parnaíba</small>
+            </a>
+            <a class="appointment-choice" href="https://wa.me/5511963619000?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20online." target="_blank" rel="noopener noreferrer">
+                <strong>Consulta online</strong>
+                <span><i class="fab fa-whatsapp"></i> WhatsApp da Dra. Wilma: +55 (11) 96361-9000</span>
+                <small><i class="fas fa-video"></i> Atendimento por telemedicina</small>
+            </a>
+        </div>
+    </dialog>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Ativar tema escuro" title="Alternar tema">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Header Glassmorphism -->
+    <header id="header">
+        <div class="container nav-content">
+            <a href="#" class="logo-box">
+                <img class="logo-mark logo-mark-dark" src="Logo fundo escuro.png" alt="Logo Dra. Wilma de Albuquerque">
+                <img class="logo-mark logo-mark-light" src="Logo fundo branco.png" alt="Logo Dra. Wilma de Albuquerque">
+                <span class="logo-copy">
+                    <span class="logo-name">Dra. Wilma de Albuquerque</span>
+                    <span class="logo-sub">Medicina e Longevidade</span>
+                </span>
+            </a>
+            <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="nav-links">
+                <a href="#sobre">Perfil Médico</a>
+                <a href="#servicos">Especialidades</a>
+                <a href="#atendimento">Presencial & Online</a>
+                <a href="#agendamento" class="btn btn-gold js-appointment" style="padding: 10px 20px; font-size: 0.8rem;">Agendar Consulta</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO COM IMAGEM EM DESTAQUE, CÉREBRO INTERATIVO E REDE NEURAL -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                
+                <!-- Coluna da Imagem e Informações (Esquerda) -->
+                <div class="hero-content" data-aos="fade-right">
+                    <div class="hero-profile-container">
+                        <!-- Imagem da Dra. Wilma referenciada -->
+                        <img src="319CDA31-D604-4B0C-826B-D79998109069.png" alt="Dra. Wilma de Albuquerque" class="hero-profile-img hero-profile-img-dark">
+                        <img src="4D62CADF-27D0-4A7D-AE63-1200B1FE573A.png" alt="Dra. Wilma de Albuquerque" class="hero-profile-img hero-profile-img-light">
+                    </div>
+                    
+                    <div class="hero-actions" style="margin-top: 30px; justify-content: flex-start;">
+                        <a href="#agendamento" class="btn btn-gold js-appointment"><i class="fab fa-whatsapp"></i> Agendar Consulta</a>
+                        <a href="#sobre" class="btn btn-outline">Conhecer a Dra. Wilma</a>
+                    </div>
+                </div>
+
+                <!-- Coluna Holográfica: Frase + Cérebro (Direita) -->
+                <div class="hero-hologram-column" data-aos="fade-left" data-aos-delay="200">
+                    
+                    <!-- Frase de Impacto Acima do Cérebro -->
+                    <div class="hero-motto-box">
+                                                 <h1>Dra. Wilma de Albuquerque</h1>
+                                                    <span class="hero-crm">Médica | CRM/SP 166972</span>
+                       <!--<h2>Envelhecer bem não é sorte. É estratégia.</h2>--> 
+                        <ul>
+                            <li><i class="fas fa-brain" style="color: var(--gold);"></i> Cognição • Longevidade • Saúde 45+</li>
+                            <li><i class="fas fa-cannabis" style="color: var(--neon-blue);"></i> Cannabis medicinal • Dor crônica</li>
+                            <li><i class="fas fa-memory" style="color: var(--neon-blue);"></i> Preservação da cognição • Memória ativa</li>
+                            <li><i class="fas fa-shield-halved" style="color: var(--gold);"></i> Manejo de demências • Mais autonomia</li>
+                            <li><i class="fas fa-hand-holding-medical" style="color: var(--gold);"></i> Controle de dores • Cuidado individualizado</li>
+                            <li><i class="fas fa-bolt" style="color: var(--neon-blue);"></i> Vitalidade cerebral • Envelhecimento saudável</li>
+                        </ul>
+                    </div>
+
+                    <!-- Stage Tecnológico do Cérebro Neural (Abaixo da Frase) -->
+                    <div class="neural-stage">
+                        <!-- Canvas interativo onde as sinapses se movem em tempo real -->
+                        <canvas id="neural-canvas"></canvas>
+                        
+                        <!-- Holograma Central do Cérebro -->
+                        <div class="brain-hologram-wrapper">
+                            <div class="brain-rings"></div>
+                            <div class="brain-rings-2"></div>
+                            
+                            <!-- Vetor anatômico estilizado em alta definição com conexões neurais -->
+                            <svg class="brain-svg" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Traçado anatômico do hemisfério cerebral -->
+                                <path d="M256 60C140 60 90 140 90 220C90 265 115 300 140 330C150 370 180 430 256 440C332 430 362 370 372 330C397 300 422 265 422 220C422 140 372 60 256 60Z" stroke="#00E5FF" stroke-width="3" stroke-dasharray="8 4" opacity="0.6"/>
+                                <!-- Conexões e sulcos neurais -->
+                                <path d="M256 60V440M190 120C220 160 220 220 170 260M322 120C292 160 292 220 342 260M140 220H372M160 320C200 320 230 370 230 430M352 320C312 320 282 370 282 430" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
+                                <!-- Pontos sinápticos dourados -->
+                                <circle cx="190" cy="120" r="6" fill="#00E5FF"/>
+                                <circle cx="322" cy="120" r="6" fill="#D4AF37"/>
+                                <circle cx="170" cy="260" r="7" fill="#D4AF37"/>
+                                <circle cx="342" cy="260" r="7" fill="#00E5FF"/>
+                                <circle cx="256" cy="180" r="8" fill="#FFFFFF"/>
+                                <circle cx="140" cy="220" r="5" fill="#00E5FF"/>
+                                <circle cx="372" cy="220" r="5" fill="#D4AF37"/>
+                                <circle cx="256" cy="340" r="6" fill="#00E5FF"/>
+                            </svg>
+                        </div>
+
+                        <!-- Tags / HUD Holográficos Flutuantes -->
+                        <div class="hud-tag tag-1"><i class="fas fa-brain"></i> Cognição Ativa</div>
+                        <div class="hud-tag tag-2"><i class="fas fa-shield-halved"></i> Neuroproteção 40+</div>
+                        <div class="hud-tag tag-3"><i class="fas fa-dna"></i> Medicina Integrativa</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Perfil da Dra. e Vídeo Real -->
+    <section id="sobre" class="about-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Formação e trajetória profissional</h2>
+                <div class="line"></div>
+                <p>Conheça a experiência por trás de um cuidado individualizado</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-text" data-aos="fade-right">
+                    <span class="crm-badge"><i class="fas fa-id-card"></i> CRM/SP 166972</span>
+                    <h3>Dra. Wilma de Albuquerque</h3>
+                    <p>Médica graduada pela Universidade Estácio de Sá (RJ), com <strong>pós-graduação em Geriatria e Gerontologia</strong> pela Faculdade de Medicina de Jundiaí. Atua com foco em longevidade, cognição, saúde integral e qualidade de vida, unindo experiência clínica e uma abordagem individualizada ao cuidado.</p>
+                    <p>É Diretora Clínica e Geriatra na Prefeitura de Santana de Parnaíba, médica clínica na MedSênior e preceptora do Internato e da Residência de Clínica Médica da UNIP – Alphaville.</p>
+                    <p>Em 2026, concluiu formação internacional em <strong>Cannabis Medicinal pela Wecann</strong>, incorporando conhecimento em terapias integrativas ao seu olhar clínico.</p>
+                    <p>Seu trabalho é pautado pela prevenção, autonomia e pelo cuidado personalizado em diferentes fases do envelhecimento, com o propósito de promover não apenas mais anos de vida, mas mais saúde, funcionalidade e qualidade de vida ao longo dos anos.</p>
+                    
+                    <a href="https://www.instagram.com/drawilmadealbuquerque" target="_blank" class="btn btn-outline" style="margin-top: 15px;">
+                        <i class="fab fa-instagram"></i> Acompanhe no Instagram
+                    </a>
+                </div>
+
+                <div class="about-media" data-aos="fade-left">
+                    <div class="video-wrapper">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/fKflAQCw9Yc?rel=0&modestbranding=1" title="Dra Wilma de Albuquerque" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    
+                    <div class="insta-gallery">
+                        <div class="insta-item">
+                            <img src="image1.png" alt="Parkinson: Canabidiol">
+                            <span class="insta-caption">Parkinson: Canabidiol</span>
+                            <a href="https://www.instagram.com/reels/Ddj-cwFj7_W/" target="_blank" class="insta-overlay"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="insta-item">
+                            <img src="image3.png" alt="Pressão Alta">
+                            <span class="insta-caption">Pressão Alta</span>
+                            <a href="https://www.instagram.com/reels/Dc015DnDu0F/" target="_blank" class="insta-overlay"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="insta-item">
+                            <img src="image2.png" alt="Demência ou Vitaminas">
+                            <span class="insta-caption">Demência ou Vitaminas</span>
+                            <a href="https://www.instagram.com/reels/Ddmg1IkjQw3/" target="_blank" class="insta-overlay"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="parallax-longevidade" aria-label="Longevidade e qualidade de vida">
+        <div class="container">
+            <div class="parallax-content" data-aos="zoom-in">
+                <span class="parallax-kicker">Longevidade</span>
+                <h2>Envelhecer bem não é sorte. É estratégia.</h2>
+                <p>Prevenção inteligente, cuidado integral e atenção individualizada para quem quer envelhecer com qualidade, independência e bem-estar.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Especialidades -->
+    <section id="servicos" class="services">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Abordagens de Tratamento</h2>
+                <div class="line"></div>
+                <p>Ciência aliada à longevidade ativa</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card glass-panel" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-icon"><i class="fas fa-stethoscope"></i></div>
+                    <h4>Consulta Médica Personalizada</h4>
+                    <p>Atendimento médico por telemedicina, com avaliação, acompanhamento e orientação individualizada.</p>
+                </div>
+
+                <div class="service-card glass-panel" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-icon"><i class="fas fa-brain"></i></div>
+                    <h4>Cognição & Memória</h4>
+                    <p>Avaliação e acompanhamento da memória, alterações cognitivas e demências.</p>
+                </div>
+
+                <div class="service-card glass-panel" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-icon"><i class="fas fa-user-shield"></i></div>
+                    <h4>Emagrecimento no Envelhecimento</h4>
+                    <p>Acompanhamento médico para perda de peso com foco em saúde metabólica, preservação de massa muscular, força e funcionalidade.</p>
+                </div>
+
+                <div class="service-card glass-panel" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-icon"><i class="fas fa-bolt"></i></div>
+                    <h4>Longevidade & Saúde 45+</h4>
+                    <p>Estratégias personalizadas para promover saúde, vitalidade, autonomia e qualidade de vida ao longo dos anos.</p>
+                </div>
+                
+                <div class="service-card glass-panel" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-icon"><i class="fas fa-cannabis"></i></div>
+                    <h4>Medicina Integrativa & Cannabis Medicinal</h4>
+                    <p>Abordagem individualizada, com estratégias terapêuticas integrativas e Cannabis Medicinal quando clinicamente indicada.</p>
+                </div>
+
+                <div class="service-card glass-panel" data-aos="fade-up" data-aos-delay="600">
+                    <div class="service-icon"><i class="fas fa-pills"></i></div>
+                    <h4>Medicamentos & Suplementação</h4>
+                    <p>Revisão e acompanhamento de medicamentos e suplementos, buscando segurança, adequação e individualização.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Atendimento Físico e Online -->
+    <section id="atendimento" class="attendance">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Onde e Como Atendemos</h2>
+                <div class="line"></div>
+                <p>Consultas presenciais em São Paulo e Santana de Parnaíba, telemedicina e atendimento domiciliar</p>
+            </div>
+
+            <div class="attendance-grid">
+                <!-- Endereços dos consultórios presenciais -->
+                <div class="tech-card glass-panel" data-aos="fade-right">
+                    <div class="tech-radar"></div>
+                    <h3>Consultórios Presenciais</h3>
+                    <ul class="clinic-list">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div><strong>São Paulo — Clínica Médica Ortopédica Chakkour</strong><br>
+                                Praça Oswaldo Cruz, 124, cj. 115, São Paulo<br>
+                                Tel.: <a href="tel:+551132845734">(11) 3284-5734</a><br>
+                                WhatsApp: <a href="https://wa.me/5511975995965">(11) 97599-5965</a>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div><strong>Santana de Parnaíba — Clínica Visione</strong><br>
+                                Av. Tenente Marques, 4724, piso 1, loja 2 — Jardim do Luar (Fazendinha), Santana de Parnaíba<br>
+                                Tel.: <a href="tel:+551142001635">(11) 4200-1635</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="#agendamento" class="btn btn-gold js-appointment" style="align-self: flex-start; margin-top: 15px;">
+                        <i class="fas fa-calendar-check"></i> Agendar Atendimento
+                    </a>
+                </div>
+
+                <!-- Mapa Físico Santana de Parnaíba -->
+                <div class="map-wrapper" data-aos="fade-left">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3659.620352528124!2d-46.88722972373039!3d-23.4741369584288!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cf03770d10c123%3A0x8e833486ec9a6a81!2sAv.%20Ten.%20Marques%2C%204724%20-%20Jardim%20do%20Luar%20(Fazendinha)%2C%20Santana%20de%20Parna%C3%ADba%20-%20SP%2C%2006530-001!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+
+            <div class="attendance-options" aria-label="Modalidades de atendimento">
+                <article class="attendance-option glass-panel" data-aos="fade-up">
+                    <h3><i class="fas fa-globe-americas"></i> Telemedicina</h3>
+                    <p>Consultas por telemedicina, com avaliação, acompanhamento e orientação individualizada, além de emissão de receitas digitais quando indicadas.</p>
+                </article>
+                <article class="attendance-option glass-panel" data-aos="fade-up" data-aos-delay="100">
+                    <h3><i class="fas fa-house-chimney-medical"></i> Atendimento Domiciliar</h3>
+                    <p>Avaliação e acompanhamento médico no conforto do lar, de acordo com as necessidades do paciente. Consulte a disponibilidade da região pelo WhatsApp.</p>
+                </article>
+                <article class="attendance-option glass-panel" data-aos="fade-up" data-aos-delay="200">
+                    <h3><i class="fas fa-receipt"></i> Reembolso Médico</h3>
+                    <p>Atendimentos particulares com emissão de documentação completa e recibos para solicitação de reembolso junto ao plano de saúde, conforme as regras do convênio.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Moderno -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="footer-brand">
+                    <div class="footer-brand-heading">
+                        <img class="logo-mark logo-mark-dark" src="Logo fundo escuro.png" alt="Logo Dra. Wilma de Albuquerque">
+                        <img class="logo-mark logo-mark-light" src="Logo fundo branco.png" alt="Logo Dra. Wilma de Albuquerque">
+                        <div>
+                            <div class="logo-name">Dra. Wilma de Albuquerque</div>
+                            <span class="logo-sub">Medicina e Longevidade</span>
+                        </div>
+                    </div>
+                    <p>Medicina centrada na autonomia, prevenção e longevidade funcional. Unindo a clínica tradicional a inovações terapêuticas integrativas.</p>
+                    <div class="social-row">
+                        <a href="https://www.instagram.com/drawilmadealbuquerque" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/5511963619000" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://youtu.be/fKflAQCw9Yc" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Navegação</h4>
+                    <ul>
+                        <li><a href="#sobre">Trajetória Médica</a></li>
+                        <li><a href="#servicos">Áreas de Atuação</a></li>
+                        <li><a href="#atendimento">Locais e Telemedicina</a></li>
+                        <li><a href="https://wa.me/5511963619000">Suporte a Cuidadores</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Consultórios</h4>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-map-pin"></i>
+                            <div>
+                                <strong style="color: var(--gold);">São Paulo — Clínica Médica Ortopédica Chakkour:</strong><br>
+                                Praça Oswaldo Cruz, 124, cj. 115<br>
+                                Tel.: <a href="tel:+551132845734">(11) 3284-5734</a> · WhatsApp: <a href="https://wa.me/5511975995965">(11) 97599-5965</a>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-pin"></i>
+                            <div>
+                                <strong style="color: var(--gold);">Santana de Parnaíba — Clínica Visione:</strong><br>
+                                Av. Tenente Marques, 4724, piso 1, loja 2 — Jardim do Luar (Fazendinha)<br>
+                                Tel.: <a href="tel:+551142001635">(11) 4200-1635</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Agendamentos</h4>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fab fa-whatsapp"></i>
+                            <div>
+                                <strong style="color: var(--gold);">WhatsApp Direto:</strong><br>
+                                (11) 96361-9000
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong style="color: var(--gold);">Horários:</strong><br>
+                                Seg à Sex: 09h às 18h
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2026 Dra. Wilma de Albuquerque (CRM/SP 166972). Todos os direitos reservados. Conteúdo informativo em conformidade com o Código de Ética Médica.
+                </div>
+                
+                <div class="dev-signature">
+                    <i class="fas fa-code"></i> Desenvolvido por <a href="https://instagram.com/tatiladurao" target="_blank">@tatiladurao</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 900, once: true, offset: 60 });
+
+        const themeToggle = document.getElementById('theme-toggle');
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const savedTheme = localStorage.getItem('wilma-theme');
+        const appointmentDialog = document.getElementById('appointment-dialog');
+
+        document.querySelectorAll('.js-appointment').forEach(link => {
+            link.addEventListener('click', event => {
+                event.preventDefault();
+                appointmentDialog.showModal();
+            });
+        });
+
+        appointmentDialog.querySelector('.appointment-dialog-close').addEventListener('click', () => {
+            appointmentDialog.close();
+        });
+
+        appointmentDialog.querySelectorAll('.appointment-choice').forEach(choice => {
+            choice.addEventListener('click', () => appointmentDialog.close());
+        });
+
+        appointmentDialog.addEventListener('click', event => {
+            if (event.target === appointmentDialog) appointmentDialog.close();
+        });
+
+        function updateThemeButton() {
+            const isLight = document.body.classList.contains('light-theme');
+            themeToggle.innerHTML = `<i class="fas fa-${isLight ? 'moon' : 'sun'}"></i>`;
+            themeToggle.setAttribute('aria-label', isLight ? 'Ativar tema escuro' : 'Ativar tema claro');
+        }
+
+        function updateHeaderAppearance() {
+            const header = document.getElementById('header');
+            const isLight = document.body.classList.contains('light-theme');
+            const isScrolled = window.scrollY > 40;
+            header.style.background = isLight
+                ? (isScrolled ? 'rgba(243, 248, 253, 0.99)' : 'rgba(243, 248, 253, 0.97)')
+                : (isScrolled ? 'rgba(2, 7, 16, 0.98)' : 'rgba(2, 7, 16, 0.85)');
+            header.style.boxShadow = isScrolled
+                ? (isLight ? '0 10px 30px rgba(25, 50, 59, 0.14)' : '0 10px 30px rgba(0, 0, 0, 0.7)')
+                : 'none';
+        }
+
+        if (savedTheme !== 'dark') document.body.classList.add('light-theme');
+        updateThemeButton();
+        updateHeaderAppearance();
+
+        themeToggle.addEventListener('click', () => {
+            const isLight = document.body.classList.toggle('light-theme');
+            localStorage.setItem('wilma-theme', isLight ? 'light' : 'dark');
+            updateThemeButton();
+            updateHeaderAppearance();
+        });
+
+        menuToggle.addEventListener('click', () => {
+            const isOpen = navLinks.classList.toggle('is-open');
+            menuToggle.setAttribute('aria-expanded', isOpen);
+            menuToggle.innerHTML = `<i class="fas fa-${isOpen ? 'xmark' : 'bars'}"></i>`;
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('is-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Mantém o contraste do cabeçalho ao rolar a página, nos dois temas.
+        window.addEventListener('scroll', updateHeaderAppearance);
+
+        // ================= MOTOR DE ANIMAÇÃO SINÁPTICA (CANVAS) =================
+        const canvas = document.getElementById('neural-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.offsetWidth;
+            canvas.height = canvas.parentElement.offsetHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const numParticles = 48;
+        const particles = [];
+        const mouse = { x: null, y: null, maxDist: 120 };
+
+        // Captura do mouse sobre o canvas
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+        });
+        canvas.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        class Neuron {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 1.2;
+                this.vy = (Math.random() - 0.5) * 1.2;
+                this.radius = Math.random() * 2.5 + 1.5;
+                this.baseColor = Math.random() > 0.4 ? '#00E5FF' : '#D4AF37';
+                this.pulsePhase = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.pulsePhase += 0.04;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+                // Atração magnética ao passar o mouse
+                if (mouse.x !== null && mouse.y !== null) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < mouse.maxDist) {
+                        this.x += (dx / dist) * 0.8;
+                        this.y += (dy / dist) * 0.8;
+                    }
+                }
+            }
+
+            draw() {
+                const currentRadius = this.radius + Math.sin(this.pulsePhase) * 0.8;
+                const isLight = document.body.classList.contains('light-theme');
+                const nodeColor = isLight
+                    ? (this.baseColor === '#00E5FF' ? '#1769AA' : '#805500')
+                    : this.baseColor;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, Math.max(1, currentRadius), 0, Math.PI * 2);
+                ctx.fillStyle = nodeColor;
+                ctx.shadowColor = nodeColor;
+                ctx.shadowBlur = 10;
+                ctx.fill();
+                ctx.shadowBlur = 0; // Reset
+            }
+        }
+
+        for (let i = 0; i < numParticles; i++) {
+            particles.push(new Neuron());
+        }
+
+        // Loop de Renderização das Sinapses
+        function animateSynapses() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Desenho das ramificações axônicas entre os neurônios
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 110) {
+                        const alpha = 1 - (distance / 110);
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        
+                        // Alterna gradiente entre Cyan e Ouro nas conexões
+                        const isLight = document.body.classList.contains('light-theme');
+                        const connectionOpacity = isLight ? alpha * 0.72 : alpha * 0.4;
+                        ctx.strokeStyle = isLight
+                            ? `rgba(23, 105, 170, ${connectionOpacity})`
+                            : `rgba(0, 229, 255, ${connectionOpacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+
+                        // Disparo de pulso elétrico sináptico
+                        if (Math.random() < 0.006) {
+                            ctx.beginPath();
+                            const midX = (particles[i].x + particles[j].x) / 2;
+                            const midY = (particles[i].y + particles[j].y) / 2;
+                            ctx.arc(midX, midY, 2, 0, Math.PI * 2);
+                            ctx.fillStyle = isLight ? '#145B91' : '#FFFFFF';
+                            ctx.shadowColor = isLight ? '#1769AA' : '#00E5FF';
+                            ctx.shadowBlur = 8;
+                            ctx.fill();
+                            ctx.shadowBlur = 0;
+                        }
+                    }
+                }
+            }
+
+            // Atualiza e desenha cada nó neural
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animateSynapses);
+        }
+
+        animateSynapses();
+    </script>
+</body>
+</html>
