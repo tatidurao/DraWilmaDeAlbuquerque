@@ -555,7 +555,7 @@
             display: grid;
             grid-template-columns: minmax(480px, 0.95fr) minmax(0, 1.05fr);
             gap: 44px;
-            align-items: end;
+            align-items: start;
             position: relative;
             z-index: 2;
         }
@@ -612,8 +612,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100%;
+            justify-content: flex-start;
         }
 
         .hero-motto-box {
@@ -653,21 +652,19 @@
         .hero-motto-box ul {
             display: grid;
             gap: 8px;
+            list-style: disc;
+            padding-left: 1.2em;
             font-size: 0.95rem;
             color: var(--text-light);
             line-height: 1.5;
         }
 
-        .hero-motto-box ul li {
-            display: flex;
-            align-items: flex-start;
-            gap: 9px;
+        .hero-motto-box ul li::marker {
+            color: var(--gold);
         }
 
-        .hero-motto-box ul i {
-            width: 1.1rem;
-            margin-top: 4px;
-            text-align: center;
+        .hero-motto-box ul li {
+            display: list-item;
         }
 
         .hero-motto-box p {
@@ -675,6 +672,24 @@
             color: var(--text-muted);
             margin-top: 20px;
             line-height: 1.5;
+        }
+
+        .hero-motto-box .hero-intro {
+            margin: 0 0 14px;
+            color: var(--text-light);
+            font-size: 0.92rem;
+        }
+
+        .hero-motto-box .hero-specialties-title {
+            margin: 0 0 8px;
+            color: var(--gold);
+            font: 600 1.05rem/1.3 var(--font-title);
+        }
+
+        .hero-motto-box .hero-closing {
+            margin-top: 14px;
+            color: var(--text-muted);
+            font-size: 0.82rem;
         }
 
         /* Stage Tecnológico do Cérebro Neural */
@@ -1306,9 +1321,10 @@
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
-            height: 100%;
-            min-height: 480px;
+            height: 420px;
+            min-height: 420px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            background: #343b45;
         }
 
         .map-wrapper iframe {
@@ -1316,6 +1332,127 @@
             height: 100%;
             border: none;
             flex-grow: 1;
+        }
+
+        .clinic-map-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .clinic-map-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .clinic-map-button {
+            min-height: 52px;
+            padding: 12px 16px;
+            border: 1px solid rgba(212, 175, 55, 0.55);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-light);
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .clinic-map-button:hover,
+        .clinic-map-button[aria-pressed="true"] {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #020710;
+            box-shadow: 0 0 18px var(--gold-glow);
+        }
+
+        .clinic-map-button:focus-visible {
+            outline: 3px solid var(--neon-blue);
+            outline-offset: 3px;
+        }
+
+        .clinic-map-details {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--text-light);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .clinic-map-details strong {
+            display: block;
+            color: var(--gold-light);
+        }
+
+        .clinic-map-details a {
+            flex-shrink: 0;
+            color: var(--gold-light);
+            font-weight: 700;
+        }
+
+        .clinic-map-placeholder {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 24px;
+            color: #e1e5eb;
+            text-align: center;
+        }
+
+        .clinic-map-placeholder i {
+            color: var(--gold);
+            font-size: 2.4rem;
+        }
+
+        .clinic-map-placeholder strong {
+            max-width: 320px;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        .map-wrapper iframe[hidden],
+        .clinic-map-placeholder[hidden],
+        .clinic-map-details[hidden] {
+            display: none;
+        }
+
+        .light-theme .clinic-map-button {
+            color: #17324D;
+            background: rgba(255, 255, 255, 0.72);
+        }
+
+        .light-theme .clinic-map-button:hover,
+        .light-theme .clinic-map-button[aria-pressed="true"] {
+            color: #182a30;
+            background: var(--gold);
+        }
+
+        .light-theme .clinic-map-details {
+            color: #17324D;
+        }
+
+        .light-theme .clinic-map-details strong,
+        .light-theme .clinic-map-details a {
+            color: #805500;
+        }
+
+        .light-theme .map-wrapper {
+            background: #e5ebf1;
+        }
+
+        .light-theme .clinic-map-placeholder {
+            color: #42566b;
+        }
+
+        .light-theme .clinic-map-placeholder i {
+            color: #805500;
         }
 
         /* Rodapé */
@@ -1652,14 +1789,14 @@
         <p>Escolha o local ou a modalidade. Você continuará o agendamento pelo WhatsApp correspondente.</p>
         <div class="appointment-choices">
             <a class="appointment-choice"
-                href="https://wa.me/5511975995965?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20na%20Cl%C3%ADnica%20M%C3%A9dica%20Ortop%C3%A9dica%20Chakkour."
+                href="https://wa.me/5511975995965?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20na%20Cl%C3%ADnica%20M%C3%A9dica%20Ortop%C3%A9dica%20Chakkour,%20com%20a%20Dra.%20Wilma%20de%20Albuquerque."
                 target="_blank" rel="noopener noreferrer">
                 <strong>Clínica Médica Ortopédica Chakkour</strong>
                 <span><i class="fab fa-whatsapp"></i> WhatsApp: (11) 97599-5965</span>
                 <small><i class="fas fa-location-dot"></i> Praça Oswaldo Cruz, 124, cj. 115 — São Paulo</small>
             </a>
             <a class="appointment-choice"
-                href="https://wa.me/551142001635?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20na%20Cl%C3%ADnica%20Visione."
+                href="https://wa.me/551142001635?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20na%20Cl%C3%ADnica%20Visione,%20com%20a%20Dra.%20Wilma%20de%20Albuquerque."
                 target="_blank" rel="noopener noreferrer">
                 <strong>Clínica Visione</strong>
                 <span><i class="fab fa-whatsapp"></i> WhatsApp: (11) 4200-1635</span>
@@ -1667,7 +1804,7 @@
                     Santana de Parnaíba</small>
             </a>
             <a class="appointment-choice"
-                href="https://wa.me/5511963619000?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20online."
+                href="https://wa.me/5511963619000?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20online%20com%20a%20Dra.%20Wilma%20de%20Albuquerque."
                 target="_blank" rel="noopener noreferrer">
                 <strong>Consulta online</strong>
                 <span><i class="fab fa-whatsapp"></i> WhatsApp da Dra. Wilma: +55 (11) 96361-9000</span>
@@ -1733,21 +1870,18 @@
                         <h1>Dra. Wilma de Albuquerque</h1>
                         <span class="hero-crm">Médica | CRM/SP 166972</span>
                         <!--<h2>Envelhecer bem não é sorte. É estratégia.</h2>-->
+                        <p class="hero-intro">Ofereço acompanhamento médico personalizado para quem busca mais saúde, vitalidade e qualidade de vida.</p>
+                        <h2 class="hero-specialties-title">Atuação nas áreas de:</h2>
                         <ul>
-                            <li><i class="fas fa-brain" style="color: var(--gold);"></i> Cognição • Longevidade • Saúde
-                                45+</li>
-                            <li><i class="fas fa-cannabis" style="color: var(--neon-blue);"></i> Cannabis medicinal •
-                                Dor crônica</li>
-                            <li><i class="fas fa-memory" style="color: var(--neon-blue);"></i> Preservação da cognição •
-                                Memória ativa</li>
-                            <li><i class="fas fa-shield-halved" style="color: var(--gold);"></i> Manejo de demências •
-                                Mais autonomia</li>
-                            <li><i class="fas fa-hand-holding-medical" style="color: var(--gold);"></i> Controle de
-                                dores • Cuidado individualizado</li>
-                            <li><i class="fas fa-bolt" style="color: var(--neon-blue);"></i> Vitalidade cerebral •
-                                Envelhecimento saudável</li>
-                            <li><i class="fas fa-weight-scale" style="color: var(--gold);"></i> Emagrecimento • Melhora composição corporal e desempenho</li>
+                            <li>Cognição, memória e prevenção do declínio cognitivo</li>
+                            <li>Emagrecimento e saúde metabólica</li>
+                            <li>Longevidade e envelhecimento saudável</li>
+                            <li>Reposição hormonal</li>
+                            <li>Suplementação</li>
+                            <li>Cannabis medicinal</li>
+                            <li>Dor crônica e terapias integrativas</li>
                         </ul>
+                        <p class="hero-closing">Cada acompanhamento é estruturado de acordo com o momento de vida, as necessidades clínicas e os objetivos individuais de cada paciente.</p>
                     </div>
 
                     <!-- Stage Tecnológico do Cérebro Neural (Abaixo da Frase) -->
@@ -1783,9 +1917,10 @@
                         </div>
 
                         <!-- Tags / HUD Holográficos Flutuantes -->
-                        <div class="hud-tag tag-1"><i class="fas fa-brain"></i> Cognição Ativa</div>
-                        <div class="hud-tag tag-2"><i class="fas fa-shield-halved"></i> Neuroproteção 40+</div>
-                        <div class="hud-tag tag-3"><i class="fas fa-dna"></i> Medicina Integrativa</div>
+                        <div class="hud-tag tag-1"><i class="fas fa-brain"></i> Cognição, Memória e Autonomia</div>
+                        <div class="hud-tag tag-2"><i class="fas fa-shield-halved"></i> Saúde Cerebral e Prevenção</div>
+                        <div class="hud-tag tag-3"><i class="fas fa-dna"></i> Medicina Integrativa e Cuidado
+                            Personalizado</div>
                     </div>
                 </div>
 
@@ -1806,17 +1941,20 @@
                 <div class="about-text" data-aos="fade-right">
                     <span class="crm-badge"><i class="fas fa-id-card"></i> CRM/SP 166972</span>
                     <h3>Dra. Wilma de Albuquerque</h3>
-                    <p>Médica graduada pela Universidade Estácio de Sá (RJ), com <strong>pós-graduação em Geriatria e
-                            Gerontologia</strong> pela Faculdade de Medicina de Jundiaí. Atua com foco em longevidade,
-                        cognição, saúde integral e qualidade de vida, unindo experiência clínica e uma abordagem
-                        individualizada ao cuidado.</p>
-                    <p>É Diretora Clínica e Geriatra na Prefeitura de Santana de Parnaíba, médica clínica na MedSênior e
-                        preceptora do Internato e da Residência de Clínica Médica da UNIP – Alphaville.</p>
-                    <p>Em 2026, concluiu formação internacional em <strong>Cannabis Medicinal pela Wecann</strong>,
-                        incorporando conhecimento em terapias integrativas ao seu olhar clínico.</p>
-                    <p>Seu trabalho é pautado pela prevenção, autonomia e pelo cuidado personalizado em diferentes fases
-                        do envelhecimento, com o propósito de promover não apenas mais anos de vida, mas mais saúde,
-                        funcionalidade e qualidade de vida ao longo dos anos.</p>
+                    <p>Médica graduada pela Universidade Estácio de Sá (RJ), com <strong>pós-graduação em Geriatria e</strong>
+                        Gerontologia pela Faculdade de Medicina de Jundiaí.
+
+                        Atua como Diretora Clínica e Geriatra na Prefeitura de Santana de Parnaíba, médica clínica na
+                        MedSênior, preceptora do Internato e da Residência de Clínica Médica da UNIP – Alphaville e
+                        responsável técnica por uma instituição de longa permanência para idosos.
+
+                        Com formação internacional em <strong>Cannabis Medicinal pela Wecann</strong>, reúne experiência clínica e
+                        atualização científica em uma abordagem voltada ao envelhecimento saudável, à preservação da
+                        cognição e à manutenção da funcionalidade.
+
+                        Meu trabalho é direcionado à promoção de autonomia, vitalidade e saúde ao longo das diferentes
+                        fases da vida.</p>
+                    
 
                     <a href="https://www.instagram.com/drawilmadealbuquerque" target="_blank" class="btn btn-outline"
                         style="margin-top: 15px;">
@@ -1930,8 +2068,7 @@
             <div class="section-header" data-aos="fade-up">
                 <h2>Onde e Como Atendemos</h2>
                 <div class="line"></div>
-                <p>Consultas presenciais em São Paulo, Cajamar, Santana de Parnaíba, Alphaville e cidades adjacentes,
-                    além de atendimento online e atendimento domiciliar</p>
+                <p>Consultas presenciais em São Paulo e Cajamar, além de atendimento online e atendimento domiciliar.</p>
             </div>
 
             <div class="attendance-grid">
@@ -1945,7 +2082,9 @@
                             <div><strong>São Paulo — Clínica Médica Ortopédica Chakkour</strong><br>
                                 Praça Oswaldo Cruz, 124, cj. 115, São Paulo<br>
                                 Tel.: <a href="tel:+551132845734">(11) 3284-5734</a><br>
-                                WhatsApp: <a href="https://wa.me/5511975995965">(11) 97599-5965</a>
+                                WhatsApp: <a
+                                    href="https://wa.me/5511975995965?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20na%20Cl%C3%ADnica%20M%C3%A9dica%20Ortop%C3%A9dica%20Chakkour,%20com%20a%20Dra.%20Wilma%20de%20Albuquerque.">(11)
+                                    97599-5965</a>
                             </div>
                         </li>
                         <li>
@@ -1963,11 +2102,36 @@
                     </a>
                 </div>
 
-                <!-- Mapa Físico Santana de Parnaíba -->
-                <div class="map-wrapper" data-aos="fade-left">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3659.620352528124!2d-46.88722972373039!3d-23.4741369584288!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cf03770d10c123%3A0x8e833486ec9a6a81!2sAv.%20Ten.%20Marques%2C%204724%20-%20Jardim%20do%20Luar%20(Fazendinha)%2C%20Santana%20de%20Parna%C3%ADba%20-%20SP%2C%2006530-001!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr"
-                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div class="clinic-map-panel" data-aos="fade-left">
+                    <div class="clinic-map-buttons" role="group" aria-label="Selecione uma clínica para ver o endereço">
+                        <button class="clinic-map-button" type="button" aria-pressed="false"
+                            data-clinic="Clínica Médica Ortopédica Chakkour"
+                            data-address="Praça Oswaldo Cruz, 124, cj. 115 — São Paulo, SP"
+                            data-map-src="https://www.google.com/maps?q=Pra%C3%A7a%20Oswaldo%20Cruz%2C%20124%2C%20cj.%20115%2C%20S%C3%A3o%20Paulo%2C%20SP&amp;output=embed"
+                            data-map-link="https://www.google.com/maps/search/?api=1&amp;query=Pra%C3%A7a%20Oswaldo%20Cruz%2C%20124%2C%20cj.%20115%2C%20S%C3%A3o%20Paulo%2C%20SP">
+                            São Paulo — Clínica Chakkour
+                        </button>
+                        <button class="clinic-map-button" type="button" aria-pressed="false"
+                            data-clinic="Clínica Visione"
+                            data-address="Av. Tenente Marques, 4724, piso 1, loja 2 — Jardim do Luar (Fazendinha), Santana de Parnaíba, SP"
+                            data-map-src="https://www.google.com/maps?q=Av.%20Tenente%20Marques%2C%204724%2C%20piso%201%2C%20loja%202%2C%20Santana%20de%20Parna%C3%ADba%2C%20SP&amp;output=embed"
+                            data-map-link="https://www.google.com/maps/search/?api=1&amp;query=Av.%20Tenente%20Marques%2C%204724%2C%20piso%201%2C%20loja%202%2C%20Santana%20de%20Parna%C3%ADba%2C%20SP">
+                            Santana de Parnaíba — Clínica Visione
+                        </button>
+                    </div>
+                    <div class="clinic-map-details" id="clinic-map-details" aria-live="polite" hidden>
+                        <div><strong id="clinic-map-name"></strong><span id="clinic-map-address"></span></div>
+                        <a id="clinic-map-link" href="#" target="_blank" rel="noopener noreferrer">Abrir no Google
+                            Maps</a>
+                    </div>
+                    <div class="map-wrapper">
+                        <div class="clinic-map-placeholder" id="clinic-map-placeholder">
+                            <i class="fas fa-map-location-dot" aria-hidden="true"></i>
+                            <strong>Selecione uma clínica acima para ver o endereço</strong>
+                        </div>
+                        <iframe id="clinic-map-frame" title="Mapa da clínica selecionada" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade" allowfullscreen hidden></iframe>
+                    </div>
                 </div>
             </div>
 
@@ -1981,7 +2145,7 @@
                     <h3><i class="fas fa-house-chimney-medical"></i> Atendimento Domiciliar</h3>
                     <p>Avaliação e acompanhamento médico no conforto do lar, de acordo com as necessidades do paciente.
                     </p>
-                    <p>Atendimento em São Paulo, Cajamar, Santana de Parnaíba, Alphaville e cidades adjacentes.</p>
+                    <p>Atendimento em São Paulo, Alphaville e cidades adjacentes.</p>
                 </article>
                 <article class="attendance-option glass-panel" data-aos="fade-up" data-aos-delay="200">
                     <h3><i class="fas fa-receipt"></i> Reembolso Médico</h3>
@@ -2013,7 +2177,8 @@
                     <div class="social-row">
                         <a href="https://www.instagram.com/drawilmadealbuquerque" target="_blank"><i
                                 class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/5511963619000" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://wa.me/5511963619000?text=Ol%C3%A1,%20gostaria%20de%20falar%20com%20a%20Dra.%20Wilma%20de%20Albuquerque%20sobre%20uma%20consulta."
+                            target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
                         <a href="https://youtu.be/fKflAQCw9Yc" target="_blank"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
@@ -2024,7 +2189,9 @@
                         <li><a href="#sobre">Trajetória Médica</a></li>
                         <li><a href="#servicos">Áreas de Atuação</a></li>
                         <li><a href="#atendimento">Locais e Consulta Online</a></li>
-                        <li><a href="https://wa.me/5511963619000">Suporte a Cuidadores</a></li>
+                        <li><a
+                                href="https://wa.me/5511963619000?text=Ol%C3%A1,%20gostaria%20de%20falar%20com%20a%20equipe%20da%20Dra.%20Wilma%20de%20Albuquerque%20sobre%20suporte%20a%20cuidadores.">Suporte
+                                a Cuidadores</a></li>
                     </ul>
                 </div>
 
@@ -2038,7 +2205,8 @@
                                     Chakkour:</strong><br>
                                 Praça Oswaldo Cruz, 124, cj. 115<br>
                                 Tel.: <a href="tel:+551132845734">(11) 3284-5734</a> · WhatsApp: <a
-                                    href="https://wa.me/5511975995965">(11) 97599-5965</a>
+                                    href="https://wa.me/5511975995965?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20consulta%20na%20Cl%C3%ADnica%20M%C3%A9dica%20Ortop%C3%A9dica%20Chakkour,%20com%20a%20Dra.%20Wilma%20de%20Albuquerque.">(11)
+                                    97599-5965</a>
                             </div>
                         </li>
                         <li>
@@ -2116,6 +2284,30 @@
 
         appointmentDialog.addEventListener('click', event => {
             if (event.target === appointmentDialog) appointmentDialog.close();
+        });
+
+        const clinicMapFrame = document.getElementById('clinic-map-frame');
+        const clinicMapPlaceholder = document.getElementById('clinic-map-placeholder');
+        const clinicMapDetails = document.getElementById('clinic-map-details');
+        const clinicMapName = document.getElementById('clinic-map-name');
+        const clinicMapAddress = document.getElementById('clinic-map-address');
+        const clinicMapLink = document.getElementById('clinic-map-link');
+
+        document.querySelectorAll('.clinic-map-button').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.clinic-map-button').forEach(clinicButton => {
+                    clinicButton.setAttribute('aria-pressed', String(clinicButton === button));
+                });
+
+                clinicMapFrame.src = button.dataset.mapSrc;
+                clinicMapFrame.title = `Mapa: ${button.dataset.clinic}`;
+                clinicMapName.textContent = button.dataset.clinic;
+                clinicMapAddress.textContent = button.dataset.address;
+                clinicMapLink.href = button.dataset.mapLink;
+                clinicMapPlaceholder.hidden = true;
+                clinicMapDetails.hidden = false;
+                clinicMapFrame.hidden = false;
+            });
         });
 
         function updateThemeButton() {
