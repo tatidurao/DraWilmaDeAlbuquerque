@@ -1918,17 +1918,19 @@
         const particles = [];
         let canvasWidth = 0;
         let canvasHeight = 0;
+        let canvasPixelRatio = 1;
 
         function resizeCanvas() {
-            const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-            canvasWidth = heroSection.clientWidth;
-            canvasHeight = heroSection.clientHeight;
-            canvas.width = Math.round(canvasWidth * pixelRatio);
-            canvas.height = Math.round(canvasHeight * pixelRatio);
-            ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+            const bounds = heroSection.getBoundingClientRect();
+            canvasPixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+            canvasWidth = bounds.width;
+            canvasHeight = bounds.height;
+            canvas.width = Math.round(canvasWidth * canvasPixelRatio);
+            canvas.height = Math.round(canvasHeight * canvasPixelRatio);
+            ctx.setTransform(canvasPixelRatio, 0, 0, canvasPixelRatio, 0, 0);
             particles.forEach(particle => {
-                particle.x = Math.min(particle.x, canvasWidth);
-                particle.y = Math.min(particle.y, canvasHeight);
+                particle.x = Math.max(0, Math.min(particle.x, canvasWidth));
+                particle.y = Math.max(0, Math.min(particle.y, canvasHeight));
             });
         }
         window.addEventListener('resize', resizeCanvas);
@@ -1976,7 +1978,9 @@
 
         // Loop de Renderização das Sinapses
         function animateSynapses() {
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.setTransform(canvasPixelRatio, 0, 0, canvasPixelRatio, 0, 0);
 
             // Desenho das ramificações axônicas entre os neurônios
             for (let i = 0; i < particles.length; i++) {
